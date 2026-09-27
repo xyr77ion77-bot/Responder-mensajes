@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#075b46">
+  <meta name="description" content="ReplyFlow, prototipo móvil para crear y probar respuestas automáticas">
+  <title>ReplyFlow · Respuestas automáticas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="desktop-brand" aria-hidden="true">
+    <div class="brand-lockup"><span class="brand-icon">↯</span><span>Reply<b>Flow</b></span></div>
+    <h1>Responde a tiempo.<br><strong>Incluso cuando no puedes.</strong></h1>
+    <p>Crea reglas, prueba conversaciones y mantén el control desde un solo lugar.</p>
+    <div class="brand-proof"><span>✓</span> Prototipo móvil interactivo</div>
+  </div>
+
+  <div class="app" id="app">
+    <header class="topbar">
+      <button class="icon-btn hidden" id="backBtn" aria-label="Volver">←</button>
+      <div class="app-brand" id="appBrand"><span class="mini-logo">↯</span><div><strong>ReplyFlow</strong><small>Auto respuestas</small></div></div>
+      <div class="page-title hidden" id="pageTitle"></div>
+      <div class="top-actions">
+        <button class="icon-btn" id="helpBtn" aria-label="Ayuda">?</button>
+        <label class="switch master" id="masterControl" title="Activar todas las respuestas">
+          <input type="checkbox" id="masterToggle" checked>
+          <span></span>
+        </label>
+      </div>
+    </header>
+
+    <main>
+      <section class="view active" id="rulesView">
+        <div class="hero">
+          <div><p class="eyebrow">AUTOMATIZACIÓN</p><h2>Tus reglas</h2><p id="ruleSummary">3 activas de 4 reglas</p></div>
+          <div class="service-status"><i></i><span>Servicio<br><b>Activo</b></span></div>
+        </div>
+        <div class="notice" id="serviceNotice">
+          <span class="notice-icon">✓</span>
+          <div><b>Todo está funcionando</b><p>Responderemos cuando una regla coincida.</p></div>
+          <button aria-label="Cerrar aviso">×</button>
+        </div>
+        <div class="section-row"><h3>Reglas de respuesta</h3><button class="sort-btn" id="sortBtn">Recientes ⇅</button></div>
+        <div class="rules-list" id="rulesList"></div>
+        <div class="empty-state hidden" id="emptyState">
+          <div class="empty-art">✦</div><h3>Aún no tienes reglas</h3><p>Crea tu primera respuesta automática y pruébala al instante.</p><button class="primary-btn" data-action="new-rule">Crear mi primera regla</button>
+        </div>
+        <button class="fab" id="newRuleBtn" aria-label="Crear regla">＋</button>
+      </section>
+
+      <section class="view test-view" id="testView">
+        <div class="test-intro"><div class="test-icon">◎</div><div><h2>Prueba tus reglas</h2><p>Los mensajes se procesan solo en este simulador.</p></div><button id="clearChat" class="text-btn">Limpiar</button></div>
+        <div class="chat" id="chatMessages" aria-live="polite"></div>
+        <form class="composer" id="chatForm">
+          <input id="chatInput" autocomplete="off" placeholder="Escribe un mensaje…" aria-label="Mensaje de prueba">
+          <button aria-label="Enviar">➤</button>
+        </form>
+      </section>
+
+      <section class="view settings-view" id="settingsView">
+        <div class="settings-head"><p class="eyebrow">PREFERENCIAS</p><h2>Ajustes</h2><p>Configura cómo se comporta ReplyFlow.</p></div>
+        <div class="permission-card"><span>♢</span><div><b>Acceso a notificaciones</b><p>Necesario para detectar mensajes en Android.</p></div><button id="permissionBtn">Configurar</button></div>
+        <div class="settings-group">
+          <h3>Respuestas</h3>
+          <button class="setting-row" id="defaultDelay"><span class="setting-symbol">◷</span><div><b>Retraso predeterminado</b><small>3 segundos</small></div><span>›</span></button>
+          <label class="setting-row"><span class="setting-symbol">◉</span><div><b>Evitar respuestas duplicadas</b><small>Ignorar mensajes repetidos por 30 s</small></div><label class="switch"><input type="checkbox" checked><span></span></label></label>
+        </div>
+        <div class="settings-group">
+          <h3>Datos</h3>
+          <button class="setting-row" id="exportBtn"><span class="setting-symbol">⇧</span><div><b>Exportar reglas</b><small>Descargar una copia JSON</small></div><span>›</span></button>
+          <button class="setting-row danger-text" id="resetBtn"><span class="setting-symbol">↺</span><div><b>Restaurar demostración</b><small>Reponer las reglas iniciales</small></div><span>›</span></button>
+        </div>
+        <div class="about-note"><b>ReplyFlow MVP</b><span>Versión de prototipo 0.1</span><p>Aplicación independiente. No afiliada ni patrocinada por WhatsApp o Meta.</p></div>
+      </section>
+
+      <section class="view editor-view" id="editorView">
+        <form id="ruleForm">
+          <div class="editor-scroll">
+            <div class="editor-heading"><span class="step-badge">01</span><div><h2>Cuando recibas</h2><p>Define el mensaje que activará esta regla.</p></div></div>
+            <label class="field"><span>Nombre de la regla</span><input id="ruleName" required maxlength="60" placeholder="Ej. Saludo inicial"></label>
+            <label class="field"><span>Mensaje recibido</span><div class="input-with-token"><input id="ruleTrigger" required maxlength="200" placeholder="Ej. hola"><button type="button" id="wildcardBtn" title="Insertar comodín">＊</button></div><small>El comodín <b>*</b> representa cualquier texto.</small></label>
+            <fieldset><legend>Tipo de coincidencia</legend><div class="choice-grid" id="matchChoices">
+              <label><input type="radio" name="match" value="exact"><span><b>Exacta</b><small>El mismo texto</small></span></label>
+              <label><input type="radio" name="match" value="contains" checked><span><b>Contiene</b><small>Parte del mensaje</small></span></label>
+              <label><input type="radio" name="match" value="similar"><span><b>Similar</b><small>Acepta variaciones</small></span></label>
+              <label><input type="radio" name="match" value="pattern"><span><b>Patrón</b><small>Usa * y |</small></span></label>
+              <label class="wide"><input type="radio" name="match" value="any"><span><b>Cualquier mensaje</b><small>Regla de respuesta universal</small></span></label>
+            </div></fieldset>
+            <div class="divider"></div>
+            <div class="editor-heading"><span class="step-badge">02</span><div><h2>Responder con</h2><p>Añade una o varias respuestas.</p></div></div>
+            <div id="replyFields" class="reply-fields"></div>
+            <button class="add-reply" type="button" id="addReplyBtn">＋ Añadir otra respuesta</button>
+            <fieldset id="multipleOptions"><legend>Si hay varias respuestas</legend><div class="segmented"><label><input type="radio" name="replyMode" value="one" checked><span>Primera</span></label><label><input type="radio" name="replyMode" value="all"><span>Todas</span></label><label><input type="radio" name="replyMode" value="random"><span>Al azar</span></label></div></fieldset>
+            <div class="divider"></div>
+            <div class="editor-heading"><span class="step-badge">03</span><div><h2>Opciones</h2><p>Controla para quién y cuándo funciona.</p></div></div>
+            <fieldset><legend>Responder a</legend><div class="segmented audience"><label><input type="radio" name="audience" value="all" checked><span>Todos</span></label><label><input type="radio" name="audience" value="contacts"><span>Contactos</span></label><label><input type="radio" name="audience" value="unknown"><span>Desconocidos</span></label></div></fieldset>
+            <div class="option-row"><div><b>Retraso de respuesta</b><small>Simula una respuesta natural</small></div><select id="ruleDelay"><option value="0">Sin retraso</option><option value="1">1 segundo</option><option value="3" selected>3 segundos</option><option value="5">5 segundos</option><option value="10">10 segundos</option></select></div>
+            <label class="option-row"><div><b>Regla activa</b><small>Podrá responder al guardarla</small></div><label class="switch"><input type="checkbox" id="ruleActive" checked><span></span></label></label>
+          </div>
+          <div class="editor-footer"><button type="button" class="delete-btn hidden" id="deleteRuleBtn">Eliminar</button><button type="submit" class="save-btn">✓ Guardar regla</button></div>
+        </form>
+      </section>
+    </main>
+
+    <nav class="bottom-nav" id="bottomNav">
+      <button class="active" data-view="rules"><span>▤</span><b>Reglas</b></button>
+      <button data-view="test"><span>◎</span><b>Probar</b></button>
+      <button data-view="settings"><span>⚙</span><b>Ajustes</b></button>
+    </nav>
+  </div>
+
+  <div class="sheet-backdrop hidden" id="helpSheet">
+    <div class="sheet"><div class="sheet-handle"></div><button class="sheet-close">×</button><span class="sheet-icon">✦</span><h2>¿Cómo funciona?</h2><p>Cada regla compara el mensaje recibido con su activador. Si coincide, ReplyFlow envía la respuesta configurada.</p><ul><li><b>Exacta:</b> debe coincidir todo el texto.</li><li><b>Contiene:</b> busca una palabra o frase.</li><li><b>Patrón:</b> permite comodines y alternativas.</li></ul><button class="primary-btn sheet-close-action">Entendido</button></div>
+  </div>
+  <div class="toast" id="toast" role="status"></div>
+  <script src="app.js"></script>
+</body>
+</html>
