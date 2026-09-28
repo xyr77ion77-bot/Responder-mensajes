@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#17191d">
+  <meta name="description" content="ReplyFlow, respuestas automáticas para tus canales de mensajería">
+  <title>ReplyFlow · Auto respuestas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="phone" id="phone">
+    <header class="appbar">
+      <button class="nav-icon" id="backBtn" hidden aria-label="Volver">←</button>
+      <button class="nav-icon" id="menuBtn" aria-label="Menú">☰</button>
+      <div class="appbar-title"><strong id="screenTitle">Respuestas</strong><small id="screenSubtitle">ReplyFlow</small></div>
+      <button class="nav-icon" id="searchBtn" aria-label="Buscar">⌕</button>
+      <button class="nav-icon" id="moreBtn" aria-label="Más opciones">⋮</button>
+      <button class="save-top" id="saveTop" hidden aria-label="Guardar">✓</button>
+    </header>
+
+    <main>
+      <section class="screen active" id="responsesScreen">
+        <div class="master-card">
+          <div class="master-state"><span class="status-orb"><i></i></span><div><p>ESTADO DEL SERVICIO</p><h2 id="masterLabel">Respuestas activas</h2><small id="masterDescription">Escuchando mensajes entrantes</small></div></div>
+          <label class="switch large"><input type="checkbox" id="masterToggle" checked><span></span></label>
+        </div>
+
+        <div class="permission-banner" id="permissionBanner">
+          <span class="banner-icon">♢</span><div><b>Activa el acceso a notificaciones</b><p>Necesario para responder desde Android.</p></div><button id="openPermission">Configurar</button><button class="dismiss" aria-label="Cerrar">×</button>
+        </div>
+
+        <div class="filter-tabs" role="tablist">
+          <button class="active" data-filter="all">Todas <span id="allCount">0</span></button>
+          <button data-filter="active">Activas</button>
+          <button data-filter="scheduled">Programadas</button>
+        </div>
+
+        <div class="default-row">
+          <div class="default-icon">☝</div><div><small>PREDETERMINADA</small><b>Perfil ocupado</b></div>
+          <button class="tiny-icon" id="editDefault">✎</button><button class="tiny-icon">⚙</button>
+          <label class="switch"><input type="checkbox" id="defaultToggle" checked><span></span></label>
+        </div>
+
+        <div class="rules" id="rulesList"></div>
+        <div class="empty" id="emptyState" hidden><span>＋</span><h2>Crea tu primera respuesta</h2><p>Añade una regla para contestar automáticamente cuando estés ocupado.</p><button data-new-rule>Nueva respuesta</button></div>
+        <button class="fab" data-new-rule aria-label="Añadir respuesta">＋</button>
+      </section>
+
+      <section class="screen" id="reportsScreen">
+        <div class="page-intro"><p class="overline">ACTIVIDAD</p><h1>Informes</h1><p>Consulta qué reglas están trabajando por ti.</p></div>
+        <div class="stats-grid"><article><span>↗</span><strong id="totalReplies">24</strong><small>Respuestas enviadas</small></article><article><span>◷</span><strong>1.8 h</strong><small>Tiempo ahorrado</small></article></div>
+        <div class="range-tabs"><button>Hoy</button><button class="active">7 días</button><button>30 días</button></div>
+        <div class="chart-card"><div class="chart-head"><div><b>Actividad semanal</b><small>Respuestas por día</small></div><span>+18%</span></div><div class="bars" id="reportChart"></div></div>
+        <div class="section-title"><div><p class="overline">DETALLE</p><h3>Rendimiento por regla</h3></div><button>Ordenar ⇅</button></div>
+        <div class="report-list" id="reportList"></div>
+        <button class="export-btn" id="exportReport">⇅ Exportar informe</button>
+      </section>
+
+      <section class="screen" id="helpScreen">
+        <div class="help-hero"><div class="big-plus">＋</div><h1>Añadir / editar</h1><p>Crea una respuesta y elige en qué canales funcionará.</p><button data-new-rule>Crear respuesta</button></div>
+        <div class="help-card"><p class="overline">CENTRO DE AYUDA</p><button data-help="start"><span>◇</span><div><b>Primeros pasos</b><small>Configura ReplyFlow en 3 minutos</small></div><i>›</i></button><button data-help="manual"><span>▤</span><div><b>Manual de usuario</b><small>Reglas, listas y horarios</small></div><i>›</i></button><button data-help="faq"><span>?</span><div><b>Preguntas frecuentes</b><small>Resuelve las dudas habituales</small></div><i>›</i></button><button data-help="issues"><span>⌁</span><div><b>Solución de problemas</b><small>Permisos y notificaciones</small></div><i>›</i></button></div>
+        <div class="support-note"><span>♡</span><div><b>¿Necesitas ayuda?</b><p>Este prototipo funciona localmente y no envía tus mensajes a ningún servidor.</p></div></div>
+      </section>
+
+      <section class="screen" id="settingsScreen">
+        <div class="page-intro"><p class="overline">PREFERENCIAS</p><h1>Ajustes</h1><p>Controla permisos, canales y tus datos.</p></div>
+        <div class="settings-section"><h3>Permisos</h3><button class="setting" id="notificationSetting"><span class="setting-icon blue">♢</span><div><b>Acceso a notificaciones</b><small id="permissionStatus">Pendiente de configurar</small></div><i>›</i></button><button class="setting"><span class="setting-icon violet">◉</span><div><b>Aplicaciones compatibles</b><small>6 canales seleccionados</small></div><i>›</i></button></div>
+        <div class="settings-section"><h3>Comportamiento</h3><button class="setting"><span class="setting-icon green">◷</span><div><b>Retraso predeterminado</b><small>3 segundos</small></div><i>›</i></button><label class="setting"><span class="setting-icon amber">↻</span><div><b>Evitar duplicados</b><small>Ignorar mensajes repetidos</small></div><label class="switch"><input type="checkbox" checked><span></span></label></label><label class="setting"><span class="setting-icon gray">☾</span><div><b>Tema oscuro</b><small>Adaptado al sistema</small></div><label class="switch"><input type="checkbox" checked><span></span></label></label></div>
+        <div class="settings-section"><h3>Datos</h3><button class="setting" id="exportRules"><span class="setting-icon blue">⇧</span><div><b>Exportar reglas</b><small>Guardar una copia JSON</small></div><i>›</i></button><button class="setting danger" id="restoreDemo"><span class="setting-icon red">↺</span><div><b>Restaurar demostración</b><small>Reponer los datos iniciales</small></div><i>›</i></button></div>
+        <div class="version">ReplyFlow MVP · 0.2<br><small>Aplicación independiente, no afiliada a plataformas de mensajería.</small></div>
+      </section>
+
+      <section class="screen editor" id="editorScreen">
+        <form id="ruleForm">
+          <div class="editor-content">
+            <div class="editor-status"><label><input type="checkbox" id="ruleActive" checked><span></span></label><div><b>Respuesta activa</b><small>Se aplicará en los canales seleccionados</small></div><button type="button" class="trash" id="deleteRule" hidden>⌫</button></div>
+            <label class="field"><span>Nombre</span><input id="ruleName" required maxlength="60" placeholder="Ej. Ocupado"></label>
+            <label class="field"><span>Cuando el mensaje contenga</span><div class="input-action"><input id="ruleTrigger" required maxlength="180" placeholder="Ej. hola, precio o *"><button type="button" id="wildcardBtn">＊</button></div></label>
+            <div class="match-strip" id="matchStrip"><label><input type="radio" name="match" value="exact"><span>Exacto</span></label><label><input type="radio" name="match" value="contains" checked><span>Contiene</span></label><label><input type="radio" name="match" value="pattern"><span>Patrón</span></label><label><input type="radio" name="match" value="any"><span>Cualquiera</span></label></div>
+            <label class="field"><span>Mensaje de respuesta</span><textarea id="ruleReply" required maxlength="1000" placeholder="Escribe la respuesta que se enviará…"></textarea><small><span id="replyLength">0</span>/1000</small></label>
+            <section class="form-section"><div class="form-title"><div><p class="overline">CANALES</p><h3>Responder mediante</h3></div><button type="button" id="toggleChannels">Todos</button></div><div class="channel-grid" id="channelGrid"></div></section>
+            <section class="form-section"><div class="form-title"><div><p class="overline">DESTINATARIOS</p><h3>Listas personalizadas</h3></div></div><button type="button" class="list-row" data-list="allow"><span>✓</span><div><b>Lista permitida</b><small id="allowCount">Todos los contactos</small></div><i>✎</i></button><button type="button" class="list-row" data-list="deny"><span>⊘</span><div><b>Lista de no responder</b><small id="denyCount">Ninguno</small></div><i>✎</i></button></section>
+            <section class="form-section"><div class="form-title"><div><p class="overline">HORARIO</p><h3>Disponibilidad</h3></div><label class="switch"><input type="checkbox" id="scheduleToggle"><span></span></label></div><div class="schedule-fields disabled" id="scheduleFields"><label><span>Desde</span><input type="time" id="startTime" value="09:00"></label><span>—</span><label><span>Hasta</span><input type="time" id="endTime" value="18:00"></label></div></section>
+            <div class="editor-tip"><span>i</span><p>En la aplicación Android real, el sistema enviará esta respuesta mediante la acción disponible en la notificación.</p></div>
+          </div>
+          <div class="editor-actions"><button type="button" id="cancelEdit">Cancelar</button><button type="submit">✓ Guardar respuesta</button></div>
+        </form>
+      </section>
+    </main>
+
+    <nav class="bottom-nav" id="bottomNav">
+      <button class="active" data-screen="responses"><span>◉</span><b>Respuestas</b></button>
+      <button data-screen="reports"><span>▥</span><b>Informes</b></button>
+      <button data-screen="help"><span>?</span><b>Ayuda</b></button>
+      <button data-screen="settings"><span>⚙</span><b>Ajustes</b></button>
+    </nav>
+  </div>
+
+  <div class="scrim" id="drawer" hidden><aside class="drawer"><div class="drawer-head"><div class="logo"><span>↩</span> Reply<b>Flow</b></div><p>Respuestas automáticas</p></div><nav><button data-screen="responses">◉ <span>Activar / desactivar</span></button><button data-new-rule>＋ <span>Añadir respuesta</span></button><button data-screen="reports">▥ <span>Informes</span></button><button data-screen="help">? <span>Ayuda</span></button><button data-screen="settings">⚙ <span>Configuración</span></button></nav><small>ReplyFlow MVP 0.2</small></aside></div>
+
+  <div class="scrim" id="permissionModal" hidden>
+    <div class="system-modal">
+      <div class="system-head"><button data-close>←</button><span>Notificaciones de la app y del dispositivo</span></div>
+      <div class="app-permission"><span class="app-icon">↩</span><b>ReplyFlow</b><small>Respuestas automáticas</small></div>
+      <label class="permission-master"><b>Permitir acceso a las notificaciones</b><label class="switch large"><input type="checkbox" id="permissionToggle"><span></span></label></label>
+      <div class="permission-options"><label><span>↻</span><div><b>Tiempo real</b><small>Comunicación continua con las apps en uso</small></div><input type="checkbox" checked></label><label><span>▤</span><div><b>Conversaciones</b><small>Mensajes de texto y otras comunicaciones</small></div><input type="checkbox" checked></label><label><span>♢</span><div><b>Notificaciones</b><small>Alertas necesarias para detectar mensajes</small></div><input type="checkbox" checked></label><label><span>♬</span><div><b>Silencio</b><small>Notificaciones que nunca suenan ni vibran</small></div><input type="checkbox" checked></label></div>
+      <p class="system-note">Simulación visual. Un sitio web no puede solicitar el permiso Android de acceso a notificaciones.</p>
+      <button class="modal-primary" data-close>Listo</button>
+    </div>
+  </div>
+
+  <div class="scrim" id="listModal" hidden><div class="dialog"><button class="dialog-x" data-close>×</button><p class="overline">LISTA PERSONALIZADA</p><h2 id="listTitle">Lista permitida</h2><p>Elige qué deseas añadir a esta regla.</p><div class="radio-list"><label><input type="radio" name="listType" value="contact" checked><span></span><div><b>Añadir contactos</b><small>Una o varias personas</small></div></label><label><input type="radio" name="listType" value="group"><span></span><div><b>Añadir grupo</b><small>Conversaciones grupales</small></div></label><label><input type="radio" name="listType" value="copy"><span></span><div><b>Copiar de otra respuesta</b><small>Reutilizar una lista existente</small></div></label></div><input class="dialog-input" id="listValue" placeholder="Nombre o número"><div class="dialog-actions"><button data-close>Cancelar</button><button id="addToList">Añadir</button></div></div></div>
+
+  <div class="scrim" id="helpModal" hidden><div class="dialog help-dialog"><button class="dialog-x" data-close>×</button><span class="dialog-symbol">?</span><h2 id="helpTitle">Primeros pasos</h2><div id="helpContent"></div><button class="modal-primary" data-close>Entendido</button></div></div>
+  <div class="toast" id="toast"></div>
+  <script src="app.js"></script>
+</body>
+</html>
