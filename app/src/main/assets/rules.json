@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "name": "Ocupado",
+    "trigger": "*",
+    "match": "ANY",
+    "reply": "Lo siento, estoy ocupado ahora mismo. Te responderé lo antes posible.",
+    "channels": ["sms", "wa", "business"],
+    "active": true,
+    "aiEnabled": false,
+    "scheduled": true,
+    "start": "12:00",
+    "end": "23:02",
+    "allow": [],
+    "deny": [],
+    "sent": 12
+  },
+  {
+    "id": 2,
+    "name": "Horario comercial",
+    "trigger": "horario",
+    "match": "CONTAINS",
+    "reply": "Nuestro horario es de lunes a viernes, de 9:00 a 18:00.",
+    "channels": ["wa", "business", "messenger"],
+    "active": true,
+    "aiEnabled": false,
+    "scheduled": false,
+    "start": "09:00",
+    "end": "18:00",
+    "allow": [],
+    "deny": [],
+    "sent": 7
+  },
+  {
+    "id": 3,
+    "name": "Información y precios",
+    "trigger": "precio|información",
+    "match": "PATTERN",
+    "reply": "¡Claro! Cuéntame qué producto te interesa y te envío toda la información.",
+    "channels": ["wa", "business", "instagram", "telegram"],
+    "active": false,
+    "aiEnabled": true,
+    "scheduled": false,
+    "start": "09:00",
+    "end": "18:00",
+    "allow": [],
+    "deny": ["Grupo familia"],
+    "sent": 5
+  }
+]
