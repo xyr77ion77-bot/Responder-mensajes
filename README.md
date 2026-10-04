@@ -24,7 +24,7 @@ Aplicación Android nativa, offline-first, que evalúa reglas locales y responde
 ./gradlew assembleRelease
 ```
 
-El APK se genera en `app/build/outputs/apk/`. El proyecto minimiza dependencias y activa R8/resource shrinking. El tamaño exacto debe medirse sobre el APK firmado final; Compose, Security Crypto y las bibliotecas AndroidX pueden hacer que el objetivo estricto de 3 MB dependa de la versión de herramientas y del empaquetado.
+El APK se genera en `app/build/outputs/apk/`. El proyecto minimiza dependencias y activa R8/resource shrinking. La compilación release de CI se mantiene por debajo del objetivo de 3 MB (el artefacto comprimido del run verificado ocupa aproximadamente 1,17 MB). El tamaño puede variar ligeramente al añadir una firma de distribución.
 
 El script `gradlew` incluido es un bootstrap ligero que descarga Gradle 8.9 en `~/.gradle` la primera vez. No modifica el repositorio.
 
