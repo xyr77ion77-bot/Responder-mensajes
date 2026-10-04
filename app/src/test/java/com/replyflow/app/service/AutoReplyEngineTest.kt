@@ -15,7 +15,7 @@ class AutoReplyEngineTest {
 
     @Test fun firstMatchingRuleWins(){
         val result=engine.evaluate(listOf(rule(1,"hola",MatchType.CONTAINS),rule(2,"*",MatchType.ANY)),incoming("Hola equipo"))
-        assertEquals(1,result?.rule?.id)
+        assertEquals(1L,result?.rule?.id)
     }
     @Test fun exactIsTrimmedAndCaseInsensitive(){
         assertNotNull(engine.evaluate(listOf(rule(1," HOLA ",MatchType.EXACT)),incoming("hola")))
