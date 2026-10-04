@@ -1,0 +1,9 @@
+.gradle/
+.idea/
+local.properties
+*.iml
+/build/
+app/build/
+captures/
+.DS_Store
+# Web prototype is retained under prototype-web; generated artifacts are not.

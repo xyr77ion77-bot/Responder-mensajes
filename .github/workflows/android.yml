@@ -1,0 +1,42 @@
+name: Android
+
+on:
+  push:
+    branches: [main, arena/01a0e4c4-responder-mensajes]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Install SDK 35
+        run: |
+          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses >/dev/null || true
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" 'platforms;android-35' 'build-tools;35.0.0'
+      - name: Test and build release
+        run: |
+          chmod +x gradlew
+          set +e
+          ./gradlew testDebugUnitTest assembleDebug assembleRelease --stacktrace 2>&1 | tee build.log
+          status=${PIPESTATUS[0]}
+          if [ "$status" -ne 0 ]; then
+            grep -E '(^e: | error: |FAILURE:|What went wrong:|Execution failed|Caused by:| FAILED$|AssertionError|expected:)' build.log | head -100 > errors.log || true
+            if [ ! -s errors.log ]; then tail -50 build.log > errors.log; fi
+            message=$(cat errors.log | sed ':a;N;$!ba;s/\n/%0A/g')
+            echo "::error title=Android build failed::$message"
+            exit "$status"
+          fi
+      - name: Prepare installable APK
+        run: |
+          mkdir -p deliverables
+          cp app/build/outputs/apk/release/app-release.apk deliverables/ReplyFlow-installable.apk
+          find deliverables -name '*.apk' -printf '%f %s bytes\n'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: replyflow-installable
+          path: deliverables/*.apk
