@@ -25,7 +25,9 @@ jobs:
           ./gradlew testDebugUnitTest assembleRelease --stacktrace 2>&1 | tee build.log
           status=${PIPESTATUS[0]}
           if [ "$status" -ne 0 ]; then
-            message=$(tail -80 build.log | sed ':a;N;$!ba;s/\n/%0A/g')
+            grep -E '(^e: | error: |FAILURE:|What went wrong:|Execution failed|Caused by:)' build.log | head -100 > errors.log || true
+            if [ ! -s errors.log ]; then tail -50 build.log > errors.log; fi
+            message=$(cat errors.log | sed ':a;N;$!ba;s/\n/%0A/g')
             echo "::error title=Android build failed::$message"
             exit "$status"
           fi
