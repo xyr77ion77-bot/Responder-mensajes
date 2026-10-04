@@ -93,6 +93,8 @@ class SettingsViewModel(private val rules: RuleRepository, private val settingsR
     fun serviceEnabled(value:Boolean)=settingsRepository.update{it.copy(serviceEnabled=value)}
     fun strict(value:Boolean)=settingsRepository.update{it.copy(strictMode=value)}
     fun duplicates(value:Boolean)=settingsRepository.update{it.copy(avoidDuplicates=value)}
+    fun delay(ms:Long)=settingsRepository.update{it.copy(replyDelayMs=ms)}
+    fun themeDark(value:Boolean)=settingsRepository.update{it.copy(themeDark=value)}
     fun restore()=viewModelScope.launch{rules.restoreDemo()}
     fun importJson(raw: String)=viewModelScope.launch{rules.importJson(raw)}
     fun exportJson():String=rules.exportJson()
