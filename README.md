@@ -22,7 +22,7 @@ No necesitas Android Studio, JDK ni Gradle para probar ReplyFlow:
 5. Android solicitará permiso para instalar aplicaciones desde el navegador o gestor de archivos utilizado. Actívalo únicamente para completar esta instalación.
 6. Instala el APK y después concede el acceso a notificaciones desde ReplyFlow.
 
-`ReplyFlow-installable.apk` es un APK debug firmado automáticamente por Android Gradle Plugin. Sirve para pruebas directas, pero no para publicar en Google Play. El archivo `ReplyFlow-release-unsigned.apk` está optimizado con R8, pero necesita una firma de distribución antes de instalarse.
+`ReplyFlow-installable.apk` está optimizado con R8 y firmado automáticamente con la clave de pruebas de Android Gradle Plugin. Se puede instalar directamente, pero esa firma no debe utilizarse para publicar en Google Play. Para producción hay que sustituirla por una clave privada de distribución.
 
 ## Compilar manualmente — opcional
 

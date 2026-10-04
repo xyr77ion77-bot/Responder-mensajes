@@ -28,6 +28,9 @@ android {
     buildTypes {
         debug { applicationIdSuffix = ".debug" }
         release {
+            // Firma de pruebas para que el APK de CI sea instalable sin Android Studio.
+            // Para Google Play debe sustituirse por una clave privada de distribución.
+            signingConfig = signingConfigs.getByName("debug")
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
