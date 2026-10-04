@@ -99,17 +99,19 @@ class ReplyNotificationListener : NotificationListenerService() {
         } ?: candidates.firstOrNull()
     }
 
-    private fun sendRemoteInput(action: Notification.Action, reply: String): Boolean = try {
-        val inputs = action.remoteInputs.orEmpty()
-        if (inputs.isEmpty()) return false
-        val intent = Intent().addFlags(Intent.FLAG_RECEIVER_FOREGROUND)
-        val results = Bundle().apply { inputs.forEach { putCharSequence(it.resultKey, reply) } }
-        RemoteInput.addResultsToIntent(inputs, intent, results)
-        action.actionIntent.send(this, 0, intent)
-        true
-    } catch (error: PendingIntent.CanceledException) {
-        logger.append("error_envio", error.message.orEmpty())
-        false
+    private fun sendRemoteInput(action: Notification.Action, reply: String): Boolean {
+        return try {
+            val inputs = action.remoteInputs.orEmpty()
+            if (inputs.isEmpty()) return false
+            val intent = Intent().addFlags(Intent.FLAG_RECEIVER_FOREGROUND)
+            val results = Bundle().apply { inputs.forEach { putCharSequence(it.resultKey, reply) } }
+            RemoteInput.addResultsToIntent(inputs, intent, results)
+            action.actionIntent.send(this, 0, intent)
+            true
+        } catch (error: PendingIntent.CanceledException) {
+            logger.append("error_envio", error.message.orEmpty())
+            false
+        }
     }
 
     private fun startStrictForeground() {
